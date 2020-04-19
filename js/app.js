@@ -23,7 +23,7 @@ noResultsDiv.style.display = 'none';
 noResultsDiv.style.fontSize = 'xx-large';
 gallery.appendChild(noResultsDiv);
 
-//Run Fetch request
+//Run Fetch request, requesting 12 users, all from the US
 fetch('https://randomuser.me/api/?results=12&nat=us')
     .then(response => response.json())
     .then(data => {
@@ -44,10 +44,12 @@ function displayEmployee(data) {
             <div class="card-info-container">
                 <h3 id="name" class="card-name cap">${data.name.first}`+ " " + `${data.name.last}</h3>
                 <p class="card-text">${data.email}</p>
-                <p class="card-text cap">${data.location.city}, ${data.location.state}</p>
+                <p class="card-text cap">${data.location.city}</p>
             </div>
         `;
     });
+
+
     //Add search functionality
 
     //Search function, called in event listeners below
@@ -75,7 +77,7 @@ function displayEmployee(data) {
         }
     }
 
-    //Add event listeners for keyup and button click.
+    //Add event listeners for keyup and Search button click.
     searchInput.addEventListener('keyup', (e) => {
         searchPeople(input);
     });
@@ -96,9 +98,17 @@ function cardListener (data) {
 //Create modal
 
 function displayModal(data, i) {
+
     //format birthday for use on Modal
     const fullBirthdate = data[i].dob.date;
-    let birthdate = fullBirthdate.substring(0, 10);
+    let ymd = fullBirthdate.substring(0, 10);
+    const birthmonth = ymd.substring(5,7);
+    const birthdate = ymd.substring(8);
+    const birthYear = ymd.substring(2,4);
+    const finalBirthdate = birthmonth + "/" + 
+                            birthdate + "/" +
+                            birthYear;
+    
     //create modal
     let modalContainer = document.createElement('div');
     modalContainer.className = 'modal-container';
@@ -107,18 +117,18 @@ function displayModal(data, i) {
         <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
             <div class="modal-info-container">
-                <img class="modal-img" src="${data[i].picture.large}" alt="profile picture">
+                <img class="modal-img" src="${data[i].picture.medium}" alt="profile picture">
                 <h3 id="name" class="modal-name cap">${data[i].name.first} ${data[i].name.last}</h3>
                 <p class="modal-text">${data[i].email}</p>
-                <p class="modal-text cap">${data[i].location.city}, ${data[i].location.state}</p>
+                <p class="modal-text cap">${data[i].location.city}</p>
                 <hr>
                 <p class="modal-text">${data[i].phone}</p>
                 <p class="modal-text">${data[i].location.street.number} 
-                                        ${data[i].location.street.name}.</p>
-                <p class="modal-text">${data[i].location.city}, 
+                                        ${data[i].location.street.name}, 
+                                        ${data[i].location.city}, 
                                         ${data[i].location.state}  
                                         ${data[i].location.postcode}</p>
-                <p class="modal-text">Birthday: ${birthdate}</p>
+                <p class="modal-text">Birthday: ${finalBirthdate}</p>
             </div>
             <div class="modal-btn-container">
                 <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
@@ -164,4 +174,3 @@ function displayModal(data, i) {
     })
     
 }
-

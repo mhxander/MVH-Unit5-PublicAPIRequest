@@ -1,1 +1,4 @@
 # MVH-Unit5-PublicAPIRequest
+
+
+I am submitting this project for Exceeds.  As required, the project pulls 12 new users every time the page reloads.  We've got all required information on the employees cards, as well as the modal window.  A search box can dynamically filter the visible employees by name.  Working Prev/Next buttons have been added to the modal window, and they are disabled when you reach the first or last employees, respectively.  I've also changed the background and headline colors to be a little more interesting. A "no results" message is made visible when no one matches the search, and is hidden at all other times.
