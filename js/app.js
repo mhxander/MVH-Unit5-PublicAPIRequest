@@ -27,7 +27,6 @@ gallery.appendChild(noResultsDiv);
 fetch('https://randomuser.me/api/?results=12&nat=us')
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         displayEmployee(data.results);
         cardListener(data.results);
     })
@@ -97,6 +96,10 @@ function cardListener (data) {
 //Create modal
 
 function displayModal(data, i) {
+    //format birthday for use on Modal
+    const fullBirthdate = data[i].dob.date;
+    let birthdate = fullBirthdate.substring(0, 10);
+    //create modal
     let modalContainer = document.createElement('div');
     modalContainer.className = 'modal-container';
     body.appendChild(modalContainer);
@@ -115,7 +118,7 @@ function displayModal(data, i) {
                 <p class="modal-text">${data[i].location.city}, 
                                         ${data[i].location.state}  
                                         ${data[i].location.postcode}</p>
-                <p class="modal-text">Birthday: ${data[i].dob.date}</p>
+                <p class="modal-text">Birthday: ${birthdate}</p>
             </div>
             <div class="modal-btn-container">
                 <button type="button" id="modal-prev" class="modal-prev btn">Prev</button>
@@ -145,8 +148,7 @@ function displayModal(data, i) {
 
 //Adding event listeners to close, next, and prev buttons.
     close.addEventListener('click', (e) => {
-        modalContainer.style.display = "none";
-        modalContainer.innerHTML = '';
+        modalContainer.remove();
     })
 
     next.addEventListener('click', (e) => {
